@@ -80,8 +80,9 @@ function! unembed#UpdateParentBuffer() " {{{
     let l:unembeddedNumLines = line("$")
 
     " Switch to the parent buffer
+    let l:unembedded_winview = winsaveview()
     execute "buffer ".b:unembed__parent
-    let l:winview = winsaveview()
+    let l:parent_winview = winsaveview()
 
     " Delete the old region
     let l:unembedded = get(b:unembedded, l:unembeddedId)
@@ -92,7 +93,7 @@ function! unembed#UpdateParentBuffer() " {{{
     let l:insertionLine = l:region[0] - 1
     execute "silent! ".l:insertionLine."read ".l:unembeddedFile
     silent! write
-    call winrestview(l:winview)
+    call winrestview(l:parent_winview)
 
     " Update the new region dimensions
     let l:newRegionEnd = l:region[0] + l:unembeddedNumLines - 1
@@ -101,6 +102,7 @@ function! unembed#UpdateParentBuffer() " {{{
 
     " Go back to the unembedded
     execute "buffer ".l:currBuf
+    call winrestview(l:unembedded_winview)
 endfunction " }}}
 
 function! unembed#RemoveUnembedded(id, parent) " {{{
