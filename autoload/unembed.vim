@@ -114,7 +114,7 @@ function! unembed#RemoveUnembedded(id, parent) " {{{
 endfunction " }}}
 
 function! unembed#GoTo() " {{{
-    " let l:id = unembed#UnembeddedId(line("."))
+    let l:id = unembed#UnembeddedId(line("."))
     if exists("b:unembedded") && has_key(b:unembedded, l:id)
         execute "buffer ".b:unembedded[l:id]["filename"]
     endif
